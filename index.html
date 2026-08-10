@@ -1,791 +1,666 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Black List Café — Brunch & Café de Quartier, Bordeaux</title>
-  <meta name="description" content="Black List Café, brunch et café de quartier place Pey Berland à Bordeaux. Café de spécialité, brunch maison, ambiance bohème. Chiens bienvenus, wifi libre.">
-  
-  <!-- Open Graph -->
-  <meta property="og:title" content="Black List Café">
-  <meta property="og:description" content="Brunch & café de quartier, place Pey Berland — Bordeaux. Café de spécialité, ambiance bohème.">
-  <meta property="og:type" content="website">
-  <meta property="og:locale" content="fr_FR">
-  
-  <!-- Preconnect -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  
-  <!-- Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&family=Kalam:wght@300;400;700&display=swap" rel="stylesheet">
-  
-  <!-- GSAP -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
-  
-  <style>
-    /* ========== RESET & BASE ========== */
-    *, *::before, *::after { box-sizing: border-box; }
-    
-    html {
-      scroll-behavior: smooth;
-      font-size: 16px;
-    }
-    
-    body {
-      margin: 0;
-      padding: 0;
-      font-family: 'Inter', sans-serif;
-      font-weight: 400;
-      line-height: 1.6;
-      color: var(--encre);
-      background-color: var(--craie);
-      -webkit-font-smoothing: antialiased;
-      -moz-osx-font-smoothing: grayscale;
-    }
-    
-    h1, h2, h3, h4, p, ul, ol, figure { margin: 0; }
-    
-    img {
-      max-width: 100%;
-      height: auto;
-      display: block;
-    }
-    
-    a {
-      color: inherit;
-      text-decoration: none;
-    }
-    
-    button {
-      font-family: inherit;
-      cursor: pointer;
-      border: none;
-      background: none;
-    }
-    
-    ul, ol { list-style: none; padding: 0; }
-    
-    /* ========== VARIABLES ========== */
-    :root {
-      --noir-tableau: #161412;
-      --chene-gris: #6B5B4F;
-      --crema-froid: #9A8B7A;
-      --rouille-chaude: #C17F59;
-      --papier-thermique: #F2EDE6;
-      --craie: #F7F5F0;
-      --encre: #2C2420;
-      --whatsapp: #25D366;
-      
-      --font-display: 'Kalam', cursive;
-      --font-body: 'Inter', sans-serif;
-      --font-mono: 'JetBrains Mono', monospace;
-      
-      --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
-    }
-    
-    /* ========== UTILITIES ========== */
-    .sr-only {
-      position: absolute;
-      width: 1px;
-      height: 1px;
-      padding: 0;
-      margin: -1px;
-      overflow: hidden;
-      clip: rect(0, 0, 0, 0);
-      white-space: nowrap;
-      border-width: 0;
-    }
-    
-    .container {
-      width: 100%;
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 0 1.5rem;
-    }
-    
-    .section-padding {
-      padding: 5rem 0;
-    }
-    
-    /* ========== NAVIGATION ========== */
-    .nav {
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      z-index: 1000;
-      background: rgba(22, 20, 18, 0.95);
-      backdrop-filter: blur(10px);
-      transition: background 0.3s ease;
-    }
-    
-    .nav-inner {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      height: 64px;
-    }
-    
-    .nav-logo {
-      font-family: var(--font-display);
-      font-size: 1.5rem;
-      font-weight: 700;
-      color: var(--craie);
-      letter-spacing: 0.02em;
-    }
-    
-    .nav-links {
-      display: none;
-      align-items: center;
-      gap: 2rem;
-    }
-    
-    .nav-link {
-      font-family: var(--font-body);
-      font-size: 0.875rem;
-      font-weight: 500;
-      color: var(--crema-froid);
-      transition: color 0.2s ease;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-    }
-    
-    .nav-link:hover,
-    .nav-link:focus-visible {
-      color: var(--craie);
-      outline: 2px solid var(--rouille-chaude);
-      outline-offset: 4px;
-    }
-    
-    .nav-social {
-      display: none;
-      align-items: center;
-      gap: 1rem;
-    }
-    
-    .nav-social a {
-      color: var(--crema-froid);
-      transition: color 0.2s ease;
-    }
-    
-    .nav-social a:hover,
-    .nav-social a:focus-visible {
-      color: var(--craie);
-      outline: 2px solid var(--rouille-chaude);
-      outline-offset: 4px;
-    }
-    
-    .lang-toggle {
-      font-family: var(--font-mono);
-      font-size: 0.75rem;
-      color: var(--crema-froid);
-      border: 1px solid var(--chene-gris);
-      padding: 0.25rem 0.5rem;
-      border-radius: 4px;
-      transition: all 0.2s ease;
-    }
-    
-    .lang-toggle:hover,
-    .lang-toggle:focus-visible {
-      color: var(--craie);
-      border-color: var(--rouille-chaude);
-      outline: none;
-    }
-    
-    .menu-btn {
-      display: flex;
-      flex-direction: column;
-      gap: 5px;
-      padding: 0.5rem;
-      background: none;
-      border: none;
-      cursor: pointer;
-    }
-    
-    .menu-btn span {
-      display: block;
-      width: 24px;
-      height: 2px;
-      background: var(--craie);
-      transition: all 0.3s ease;
-      transform-origin: center;
-    }
-    
-    .menu-btn[aria-expanded="true"] span:nth-child(1) {
-      transform: translateY(7px) rotate(45deg);
-    }
-    
-    .menu-btn[aria-expanded="true"] span:nth-child(2) {
-      opacity: 0;
-    }
-    
-    .menu-btn[aria-expanded="true"] span:nth-child(3) {
-      transform: translateY(-7px) rotate(-45deg);
-    }
-    
-    .mobile-menu {
-      display: none;
-      position: absolute;
-      top: 64px;
-      left: 0;
-      right: 0;
-      background: rgba(22, 20, 18, 0.98);
-      padding: 2rem 1.5rem;
-      flex-direction: column;
-      gap: 1.5rem;
-      border-top: 1px solid rgba(107, 91, 79, 0.3);
-    }
-    
-    .mobile-menu.open {
-      display: flex;
-    }
-    
-    .mobile-menu a {
-      font-family: var(--font-body);
-      font-size: 1.125rem;
-      color: var(--craie);
-      padding: 0.5rem 0;
-      border-bottom: 1px solid rgba(107, 91, 79, 0.2);
-    }
-    
-    .mobile-menu a:focus-visible {
-      outline: 2px solid var(--rouille-chaude);
-      outline-offset: 4px;
-    }
-    
-    /* ========== HERO ========== */
-    .hero {
-      position: relative;
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background-color: var(--noir-tableau);
-      overflow: hidden;
-    }
-    
-    .hero::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background-image: 
-        radial-gradient(circle at 20% 50%, rgba(255,255,255,0.03) 0%, transparent 50%),
-        radial-gradient(circle at 80% 80%, rgba(255,255,255,0.02) 0%, transparent 50%);
-      pointer-events: none;
-    }
-    
-    .hero-noise {
-      position: absolute;
-      inset: 0;
-      opacity: 0.04;
-      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
-      pointer-events: none;
-    }
-    
-    .hero-content {
-      position: relative;
-      z-index: 2;
-      text-align: center;
-      padding: 2rem;
-      max-width: 700px;
-    }
-    
-    .hero-title {
-      font-family: var(--font-display);
-      font-size: clamp(3rem, 10vw, 5.5rem);
-      font-weight: 700;
-      color: var(--craie);
-      line-height: 1.1;
-      margin-bottom: 1rem;
-      letter-spacing: 0.02em;
-    }
-    
-    .hero-subtitle {
-      font-family: var(--font-body);
-      font-size: clamp(1rem, 3vw, 1.25rem);
-      font-weight: 300;
-      color: var(--crema-froid);
-      margin-bottom: 2rem;
-      line-height: 1.5;
-    }
-    
-    .hero-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-      padding: 0.5rem 1rem;
-      border-radius: 100px;
-      font-family: var(--font-mono);
-      font-size: 0.75rem;
-      font-weight: 500;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-      margin-bottom: 2rem;
-      border: 1px solid rgba(247, 245, 240, 0.2);
-      transition: all 0.3s ease;
-    }
-    
-    .hero-badge.open {
-      background: rgba(37, 211, 102, 0.1);
-      color: #4ade80;
-      border-color: rgba(37, 211, 102, 0.3);
-    }
-    
-    .hero-badge.closed {
-      background: rgba(239, 68, 68, 0.1);
-      color: #f87171;
-      border-color: rgba(239, 68, 68, 0.3);
-    }
-    
-    .badge-dot {
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      animation: pulse 2s infinite;
-    }
-    
-    .hero-badge.open .badge-dot {
-      background: #4ade80;
-    }
-    
-    .hero-badge.closed .badge-dot {
-      background: #f87171;
-    }
-    
-    @keyframes pulse {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0.5; }
-    }
-    
-    .hero-cta {
-      display: inline-block;
-      font-family: var(--font-display);
-      font-size: 1.25rem;
-      font-weight: 700;
-      color: var(--craie);
-      padding: 0.875rem 2.5rem;
-      border: 2px dashed rgba(247, 245, 240, 0.6);
-      border-radius: 4px;
-      transition: all 0.3s var(--ease-out-expo);
-      position: relative;
-    }
-    
-    .hero-cta::before {
-      content: '';
-      position: absolute;
-      inset: -2px;
-      border: 2px dashed var(--craie);
-      border-radius: 4px;
-      opacity: 0;
-      transition: opacity 0.3s ease;
-    }
-    
-    .hero-cta:hover,
-    .hero-cta:focus-visible {
-      background: var(--craie);
-      color: var(--noir-tableau);
-      border-color: var(--craie);
-      transform: translateY(-2px);
-      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-      outline: none;
-    }
-    
-    .hero-cta:hover::before,
-    .hero-cta:focus-visible::before {
-      opacity: 0;
-    }
-    
-    .hero-scroll {
-      position: absolute;
-      bottom: 2rem;
-      left: 50%;
-      transform: translateX(-50%);
-      color: var(--crema-froid);
-      font-family: var(--font-mono);
-      font-size: 0.75rem;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      animation: bounce 2s infinite;
-    }
-    
-    @keyframes bounce {
-      0%, 20%, 50%, 80%, 100% { transform: translateX(-50%) translateY(0); }
-      40% { transform: translateX(-50%) translateY(-10px); }
-      60% { transform: translateX(-50%) translateY(-5px); }
-    }
-    
-    /* ========== ABOUT ========== */
-    .about {
-      background-color: var(--craie);
-    }
-    
-    .about-grid {
-      display: grid;
-      gap: 3rem;
-      align-items: center;
-    }
-    
-    .about-image {
-      position: relative;
-      overflow: hidden;
-      border-radius: 4px;
-    }
-    
-    .about-image img {
-      width: 100%;
-      height: 400px;
-      object-fit: cover;
-      filter: saturate(0.9) contrast(1.05);
-      transition: transform 0.6s var(--ease-out-expo);
-    }
-    
-    .about-image:hover img {
-      transform: scale(1.03);
-    }
-    
-    .about-content h2 {
-      font-family: var(--font-display);
-      font-size: clamp(2rem, 5vw, 3rem);
-      font-weight: 700;
-      color: var(--noir-tableau);
-      margin-bottom: 1.5rem;
-      line-height: 1.2;
-    }
-    
-    .about-content p {
-      font-size: 1.0625rem;
-      color: var(--chene-gris);
-      margin-bottom: 1rem;
-      line-height: 1.7;
-    }
-    
-    .about-content p:last-child {
-      margin-bottom: 0;
-      font-style: italic;
-      color: var(--rouille-chaude);
-    }
-    
-    /* ========== MENU ========== */
-    .menu {
-      background-color: var(--noir-tableau);
-      position: relative;
-    }
-    
-    .menu::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      opacity: 0.03;
-      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
-      pointer-events: none;
-    }
-    
-    .menu-header {
-      text-align: center;
-      margin-bottom: 3rem;
-      position: relative;
-      z-index: 1;
-    }
-    
-    .menu-header h2 {
-      font-family: var(--font-display);
-      font-size: clamp(2rem, 5vw, 3rem);
-      font-weight: 700;
-      color: var(--craie);
-      margin-bottom: 0.5rem;
-    }
-    
-    .menu-header p {
-      font-family: var(--font-body);
-      font-size: 1rem;
-      color: var(--crema-froid);
-      font-style: italic;
-    }
-    
-    .menu-grid {
-      display: grid;
-      gap: 3rem;
-      position: relative;
-      z-index: 1;
-    }
-    
-    .menu-category h3 {
-      font-family: var(--font-display);
-      font-size: 1.5rem;
-      font-weight: 700;
-      color: var(--rouille-chaude);
-      margin-bottom: 1.5rem;
-      padding-bottom: 0.5rem;
-      border-bottom: 1px dashed rgba(193, 127, 89, 0.4);
-      display: inline-block;
-    }
-    
-    .menu-item {
-      display: flex;
-      justify-content: space-between;
-      align-items: baseline;
-      padding: 0.875rem 0;
-      border-bottom: 1px dashed rgba(247, 245, 240, 0.1);
-      position: relative;
-      transition: all 0.2s ease;
-    }
-    
-    .menu-item:hover {
-      padding-left: 0.5rem;
-    }
-    
-    .menu-item-name {
-      font-family: var(--font-display);
-      font-size: 1.125rem;
-      color: var(--craie);
-      font-weight: 400;
-    }
-    
-    .menu-item-price {
-      font-family: var(--font-mono);
-      font-size: 0.9375rem;
-      color: var(--crema-froid);
-      font-weight: 500;
-      white-space: nowrap;
-      margin-left: 1rem;
-    }
-    
-    /* ========== GALLERY ========== */
-    .gallery {
-      background-color: var(--papier-thermique);
-    }
-    
-    .gallery-header {
-      text-align: center;
-      margin-bottom: 3rem;
-    }
-    
-    .gallery-header h2 {
-      font-family: var(--font-display);
-      font-size: clamp(2rem, 5vw, 3rem);
-      font-weight: 700;
-      color: var(--noir-tableau);
-      margin-bottom: 0.5rem;
-    }
-    
-    .gallery-header p {
-      font-family: var(--font-body);
-      font-size: 1rem;
-      color: var(--chene-gris);
-      font-style: italic;
-    }
-    
-    .gallery-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 0.75rem;
-      grid-auto-rows: 160px;
-    }
-    
-    .gallery-item {
-      position: relative;
-      overflow: hidden;
-      border-radius: 4px;
-    }
-    
-    .gallery-item img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      filter: saturate(0.85) contrast(1.05);
-      transition: transform 0.5s var(--ease-out-expo), filter 0.5s ease;
-    }
-    
-    .gallery-item:hover img {
-      transform: scale(1.05);
-      filter: saturate(1) contrast(1.1);
-    }
-    
-    .gallery-item:nth-child(1) { grid-row: span 2; }
-    .gallery-item:nth-child(3) { grid-row: span 2; }
-    .gallery-item:nth-child(6) { grid-row: span 2; }
-    
-    /* ========== AVIS — THE RECEIPT WALL ========== */
-    .avis {
-      background-color: var(--chene-gris);
-      position: relative;
-      overflow: hidden;
-    }
-    
-    .avis::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      opacity: 0.05;
-      background-image: repeating-linear-gradient(
-        90deg,
-        transparent,
-        transparent 2px,
-        rgba(0,0,0,0.1) 2px,
-        rgba(0,0,0,0.1) 4px
-      ),
-      repeating-linear-gradient(
-        0deg,
-        transparent,
-        transparent 2px,
-        rgba(255,255,255,0.05) 2px,
-        rgba(255,255,255,0.05) 4px
-      );
-      pointer-events: none;
-    }
-    
-    .avis-header {
-      text-align: center;
-      margin-bottom: 3rem;
-      position: relative;
-      z-index: 1;
-    }
-    
-    .avis-header h2 {
-      font-family: var(--font-display);
-      font-size: clamp(2rem, 5vw, 3rem);
-      font-weight: 700;
-      color: var(--craie);
-      margin-bottom: 0.5rem;
-    }
-    
-    .avis-header p {
-      font-family: var(--font-mono);
-      font-size: 0.875rem;
-      color: var(--crema-froid);
-      letter-spacing: 0.05em;
-    }
-    
-    .receipt-wall {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 2rem;
-      position: relative;
-      z-index: 1;
-      max-width: 900px;
-      margin: 0 auto;
-    }
-    
-    .receipt {
-      position: relative;
-      filter: drop-shadow(0 4px 12px rgba(0,0,0,0.2));
-      transition: transform 0.3s var(--ease-out-expo), filter 0.3s ease;
-    }
-    
-    .receipt:hover {
-      transform: translateY(-8px) rotate(0deg) scale(1.02) !important;
-      filter: drop-shadow(0 12px 24px rgba(0,0,0,0.25));
-      z-index: 10;
-    }
-    
-    .receipt:nth-child(1) { transform: rotate(-2deg); }
-    .receipt:nth-child(2) { transform: rotate(1.5deg); }
-    .receipt:nth-child(3) { transform: rotate(-1deg); }
-    .receipt:nth-child(4) { transform: rotate(2.5deg); }
-    
-    .receipt-tear-top,
-    .receipt-tear-bottom {
-      height: 12px;
-      width: 100%;
-      background-size: 20px 40px;
-      background-repeat: repeat-x;
-    }
-    
-    .receipt-tear-top {
-      background-image: 
-        linear-gradient(135deg, transparent 33.333%, var(--papier-thermique) 33.333%, var(--papier-thermique) 66.667%, transparent 66.667%),
-        linear-gradient(-135deg, transparent 33.333%, var(--papier-thermique) 33.333%, var(--papier-thermique) 66.667%, transparent 66.667%);
-      background-position: 0 0;
-      margin-bottom: -1px;
-    }
-    
-    .receipt-tear-bottom {
-      background-image: 
-        linear-gradient(45deg, transparent 33.333%, var(--papier-thermique) 33.333%, var(--papier-thermique) 66.667%, transparent 66.667%),
-        linear-gradient(-45deg, transparent 33.333%, var(--papier-thermique) 33.333%, var(--papier-thermique) 66.667%, transparent 66.667%);
-      background-position: 0 0;
-      margin-top: -1px;
-    }
-    
-    .receipt-paper {
-      background: var(--papier-thermique);
-      padding: 2rem 1.5rem;
-      position: relative;
-    }
-    
-    .pushpin {
-      width: 14px;
-      height: 14px;
-      border-radius: 50%;
-      background: radial-gradient(circle at 35% 35%, #d44, #800);
-      box-shadow: 0 2px 4px rgba(0,0,0,0.3), inset 0 -2px 4px rgba(0,0,0,0.2);
-      position: absolute;
-      top: -7px;
-      left: 50%;
-      transform: translateX(-50%);
-      z-index: 2;
-    }
-    
-    .coffee-stain {
-      position: absolute;
-      width: 80px;
-      height: 80px;
-      pointer-events: none;
-      opacity: 0.12;
-    }
-    
-    .receipt:nth-child(1) .coffee-stain { top: 10px; right: 10px; }
-    .receipt:nth-child(2) .coffee-stain { bottom: 20px; left: 10px; }
-    .receipt:nth-child(3) .coffee-stain { top: 20px; left: 10px; }
-    .receipt:nth-child(4) .coffee-stain { bottom: 10px; right: 20px; }
-    
-    .receipt-header {
-      text-align: center;
-      margin-bottom: 1rem;
-      padding-bottom: 0.75rem;
-      border-bottom: 1px dashed var(--chene-gris);
-    }
-    
-    .receipt-header .name {
-      font-family: var(--font-mono);
-      font-size: 0.75rem;
-      font-weight: 700;
-      color: var(--encre);
-      text-transform: uppercase;
-      letter-spacing: 0.1em;
-    }
-    
-    .receipt-header .meta {
-      font-family: var(--font-mono);
-      font-size: 0.625rem;
-      color: var(--crema-froid);
-      margin-top: 0.25rem;
-    }
-    
-    .receipt-body {
-      font-family: var(--font-mono);
-      font-size: 0.8125rem;
-      line-height: 1.7;
-      color: var(--encre);
-      margin-bottom: 1rem;
-    }
-    
-    .receipt-divider {
-      border: none;
-      border-top: 1px dashed var(--chene-gris);
-      margin: 0.75rem 0;
-    }
-    
-    .receipt-total {
-      font-family: var(--font-mono);
-      font-size: 0.875rem;
-      font-weight: 700;
-      color: var(--encre);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-    
-    .receipt-stars {
-      co
+<!--
+════════════════════════════════════════════════════════════════════
+STEP 1 — DESIGN PLAN
+════════════════════════════════════════════════════════════════════
+COLOR (drawn from the room itself — chalkboard, wood, crema, brass, wine):
+  --encre   #17130C  the chalkboard wall: warm confident near-black (the name earns it)
+  --fumee   #EAE3CF  chalk line / chalk dust: the "ink" of the whole page
+  --crema   #C99B5F  espresso crema, burnt sugar — primary accent
+  --laiton  #A8894B  aged brass of the machine & lamp shades — secondary accent
+  --chataigne #4A3320 worn chestnut table tops — the wooden frames around boards
+  --bordeaux #7E2733 wine stamp red (brighter #B8505E on dark) — it IS Bordeaux
+  Props (not palette): --papier #E7DCC2 polaroid paper.
+  NO cream background + terracotta anywhere: ground is chalkboard black,
+  accents are caramel/brass/wine, not clay orange.
+
+TYPE:
+  Display  : Caveat 700 — real chalk handwriting for titles & margin notes
+  Utility  : Special Elite — the typewriter: "the list" identity, prices, hours, kickers
+  Body     : Karla — warm humanist sans for reading copy
+
+LAYOUT (section flow):
+  HEAD  sticky chalk rail: wordmark · nav · live open/closed pill · IG/FB · Réserver
+  ┌ HERO = the chalkboard itself (wood-framed board, no photo) ┐
+  │  kicker typed → giant chalk title → squiggle draws itself  │
+  │  "LA LISTE NOIRE" writes itself ✓/✗ → CTA → wine stamp      │
+  │  OUVERT/FERMÉ computed live from real hours                │
+  └────────────────────────────────────────────────────────────┘
+  MAISON   story + taped polaroids (terrace/tower, interior) + chips
+  CARTE    wood-framed chalk menu, dotted leaders, typed prices,
+           taped cake/toast photos on wide screens, "la légende" note
+  PHOTOS   6 tilted taped polaroids (IG wall), straighten on hover
+  AVIS     wine/crema round stamp 4,7/5 · 870+ avis + 4 chalk quotes
+  VISITE   address · live hours table (today highlighted) · WhatsApp /
+           call / directions · wood-framed dark-styled Google map
+  FOOTER   chalk sign-off, socials, hours recap
+
+SIGNATURE — "la craie qui écrit" (the chalk that writes):
+  the page opens on a chalkboard where the house list writes itself;
+  every section title underlines itself with a hand-drawn squiggle that
+  strokes in on scroll; buttons/chips use wobbly hand-drawn borders.
+  Only a café literally named Black List with chalk signage can own this.
+
+MOTION (3 moments, restrained):
+  1 load: hero writes itself (lines rise, squiggle draws, stamp slams)
+  2 scroll: one reveal per section (squiggle draw + content rise)
+  3 hover: CTA tilts like a stamp, polaroids straighten
+  prefers-reduced-motion: everything renders final state, no anim.
+
+STEP 2 — SELF-CRITIQUE (what was revised before coding)
+  × first instinct was a paper-menu hero w/ photo → too generic brunch;
+    replaced by the live chalkboard + open-now stamp (true to the room).
+  × polaroids-as-signature and torn-receipt reviews were on the table →
+    both read as "any café"; polaroids demoted to props, reviews become
+    chalk quotes + wine stamp; the self-writing chalk list is the only
+    signature system.
+  × crema accent first sat at #D08A62 → too close to terracotta default;
+    shifted to caramel #C99B5F + brass, wine red carries the identity.
+
+STEP 4 — FINAL CHECK
+  ✓ palette not cream+terracotta · ✓ signature belongs to THIS café only
+  ✓ animation = 3 purposeful moments + reduced-motion fallback
+  ✓ mobile-first, focus-visible dashed chalk outline, lazy images, single file
+════════════════════════════════════════════════════════════════════
+-->
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Black List Café — Café bohème, place Pey-Berland · Bordeaux</title>
+<meta name="description" content="Black List Café, 27 place Pey-Berland, Bordeaux. Café de spécialité, levain maison, brunch toute la journée, chiens bienvenus. 4,7/5 sur plus de 870 avis Google.">
+<meta property="og:title" content="Black List Café — Bordeaux">
+<meta property="og:description" content="Café bohème à l'ombre de la tour Pey-Berland. Café de spécialité, levain maison, brunch, chiens bienvenus.">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/caveat@5/400.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/caveat@5/700.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/special-elite@5/400.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/karla@5/400.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/karla@5/600.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/karla@5/700.css">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"CafeOrCoffeeShop","name":"Black List Café","address":{"@type":"PostalAddress","streetAddress":"27 Place Pey Berland","postalCode":"33000","addressLocality":"Bordeaux","addressCountry":"FR"},"telephone":"+33556815676","email":"blacklistbordeaux@gmail.com","sameAs":["https://www.instagram.com/blacklistcafe/"],"aggregateRating":{"@type":"AggregateRating","ratingValue":"4.7","reviewCount":"870"},"openingHoursSpecification":[{"@type":"OpeningHoursSpecification","dayOfWeek":["Monday","Tuesday","Wednesday","Thursday","Friday"],"opens":"08:00","closes":"18:00"},{"@type":"OpeningHoursSpecification","dayOfWeek":"Saturday","opens":"09:30","closes":"18:00"}]}
+</script>
+<style>
+:root{
+  --encre:#17130C; --board:#1C1710; --fumee:#EAE3CF; --fumee-dim:rgba(234,227,207,.72);
+  --crema:#C99B5F; --laiton:#A8894B; --chataigne:#4A3320; --chataigne-2:#5E3E24;
+  --bordeaux:#7E2733; --bordeaux-clair:#B8505E; --papier:#E7DCC2;
+  --ff-disp:'Caveat',cursive; --ff-type:'Special Elite','Courier New',monospace; --ff-body:'Karla',sans-serif;
+  --hand-a:255px 18px 225px 16px/16px 225px 18px 255px;
+  --hand-b:18px 225px 16px 255px/255px 16px 225px 18px;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-padding-top:92px}
+@media (prefers-reduced-motion:no-preference){html{scroll-behavior:smooth}}
+body{background:var(--encre);color:var(--fumee);font-family:var(--ff-body);line-height:1.65;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+body::after{content:"";position:fixed;inset:0;z-index:4;pointer-events:none;opacity:.06;mix-blend-mode:screen;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2'/><feColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 .6 0'/></filter><rect width='180' height='180' filter='url(%23n)'/></svg>")}
+img{max-width:100%;display:block}
+a{color:inherit}
+::selection{background:var(--bordeaux);color:var(--fumee)}
+:focus-visible{outline:2px dashed var(--crema);outline-offset:4px;border-radius:2px}
+.wrap{width:min(1120px,100% - 2.4rem);margin-inline:auto}
+section{padding-block:clamp(4.2rem,9vw,7.2rem);scroll-margin-top:90px}
+.skip{position:absolute;left:-999px;top:0;background:var(--crema);color:var(--encre);padding:.7rem 1.2rem;z-index:99;font-family:var(--ff-type)}
+.skip:focus{left:1rem;top:1rem}
+
+/* ————— chalk typography ————— */
+.kicker{font-family:var(--ff-type);font-size:.78rem;letter-spacing:.24em;text-transform:uppercase;color:var(--crema)}
+h1,h2{font-family:var(--ff-disp);font-weight:700;line-height:1.02;text-shadow:0 0 16px rgba(234,227,207,.14)}
+h2{font-size:clamp(2.5rem,6vw,3.9rem)}
+.squiggle{display:block;height:14px;width:min(320px,72%);margin-top:.4rem;color:var(--crema)}
+.squiggle path{fill:none;stroke:currentColor;stroke-width:3.4;stroke-linecap:round}
+
+/* ————— hand-drawn buttons & pills ————— */
+.btn{display:inline-flex;align-items:center;gap:.6rem;font-family:var(--ff-type);text-transform:uppercase;letter-spacing:.1em;font-size:.88rem;text-decoration:none;padding:.95rem 1.5rem;cursor:pointer;transition:transform .25s,box-shadow .25s,border-color .25s,background .25s}
+.btn svg{width:18px;height:18px;flex:none}
+.btn-primary{background:var(--crema);color:#201409;border:2px solid var(--crema);border-radius:var(--hand-a)}
+.btn-primary:hover{transform:translateY(-3px) rotate(-1.4deg);box-shadow:0 12px 26px rgba(201,155,95,.28)}
+.btn-ghost{color:var(--fumee);border:2px dashed rgba(234,227,207,.45);border-radius:var(--hand-b);background:transparent}
+.btn-ghost:hover{border-style:solid;border-color:var(--fumee);transform:translateY(-3px) rotate(1deg)}
+.btn-sm{padding:.55rem 1rem;font-size:.75rem}
+.pill{display:inline-flex;align-items:center;gap:.5rem;font-family:var(--ff-type);font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;padding:.45rem .85rem;border:1.5px dashed;border-radius:var(--hand-b)}
+.pill .dot{width:8px;height:8px;border-radius:50%;background:currentColor;flex:none}
+.pill.is-open{color:var(--crema);border-color:rgba(201,155,95,.6)}
+.pill.is-open .dot{animation:pulse 2.4s ease-in-out infinite}
+.pill.is-closed{color:var(--bordeaux-clair);border-color:rgba(184,80,94,.55)}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(201,155,95,.45)}50%{box-shadow:0 0 0 6px rgba(201,155,95,0)}}
+
+/* ————— header ————— */
+.site-head{position:sticky;top:0;z-index:60;background:rgba(23,19,12,.92);backdrop-filter:blur(7px);border-bottom:1px dashed rgba(234,227,207,.16)}
+.head-row{display:flex;align-items:center;gap:1rem;min-height:66px}
+.brand{font-family:var(--ff-disp);font-weight:700;font-size:1.55rem;text-decoration:none;letter-spacing:.01em}
+.brand em{font-style:normal;color:var(--crema)}
+.nav{display:none}
+.nav a{font-family:var(--ff-body);font-weight:700;font-size:.78rem;letter-spacing:.09em;text-transform:uppercase;text-decoration:none;color:var(--fumee-dim);background:linear-gradient(currentColor,currentColor) left bottom/0% 2px no-repeat;padding:.35rem .1rem;transition:background-size .3s,color .3s}
+.nav a:hover{color:var(--fumee);background-size:100% 2px}
+.head-side{margin-left:auto;display:flex;align-items:center;gap:.7rem}
+.soc{width:34px;height:34px;display:grid;place-items:center;color:var(--fumee-dim);border:1.5px dashed rgba(234,227,207,.3);border-radius:var(--hand-b);text-decoration:none;transition:color .25s,transform .25s,border-color .25s}
+.soc svg{width:16px;height:16px}
+.soc:hover{color:var(--crema);border-color:var(--crema);transform:rotate(-6deg)}
+.burger{display:grid;gap:6px;place-content:center;width:42px;height:42px;background:none;border:1.5px dashed rgba(234,227,207,.4);border-radius:var(--hand-a);cursor:pointer}
+.burger span{display:block;width:18px;height:2px;background:var(--fumee);transition:transform .3s}
+.nav-open .burger span:first-child{transform:translateY(4px) rotate(45deg)}
+.nav-open .burger span:last-child{transform:translateY(-4px) rotate(-45deg)}
+@media (min-width:900px){
+  .nav{display:flex;gap:1.4rem;margin-left:1.6rem}
+  .burger{display:none}
+}
+@media (max-width:899.98px){
+  .nav-open .nav{display:flex;flex-direction:column;gap:1.05rem;position:absolute;top:66px;left:0;right:0;background:rgba(23,19,12,.98);padding:1.4rem 1.6rem 1.8rem;border-bottom:1px dashed rgba(234,227,207,.2)}
+  .head-side .btn-sm{display:none}
+}
+@media (max-width:480px){.head-side .pill{display:none}}
+
+/* ————— chalkboard frames ————— */
+.board-frame{padding:clamp(10px,1.5vw,16px);border-radius:10px;
+  background:repeating-linear-gradient(98deg,rgba(0,0,0,.14) 0 2px,transparent 2px 9px),linear-gradient(140deg,var(--chataigne-2),#3A2513 58%,var(--chataigne));
+  box-shadow:inset 0 2px 0 rgba(255,235,200,.14),inset 0 -3px 8px rgba(0,0,0,.55),0 34px 70px -24px rgba(0,0,0,.65)}
+.board{position:relative;border-radius:4px;padding:clamp(1.7rem,5vw,4rem);background:radial-gradient(120% 90% at 18% 0%,#262013 0%,var(--board) 55%),var(--board)}
+.board::before{content:"";position:absolute;inset:0;pointer-events:none;border-radius:inherit;
+  background:radial-gradient(55% 38% at 86% 10%,rgba(234,227,207,.05),transparent 62%),radial-gradient(45% 32% at 8% 92%,rgba(234,227,207,.045),transparent 60%)}
+
+/* ————— hero ————— */
+.hero{padding-top:clamp(2.6rem,6vw,4.6rem)}
+.hero h1{font-size:clamp(3.4rem,10vw,6.4rem);margin-top:.5rem}
+.hero-squig{width:min(430px,86%);height:18px}
+.tag{margin-top:1.1rem;max-width:52ch;color:var(--fumee-dim);font-size:clamp(1rem,2.4vw,1.15rem)}
+.list-noire{list-style:none;margin-top:2rem;display:grid;gap:.45rem;font-family:var(--ff-type);font-size:.92rem;color:var(--fumee-dim)}
+.list-noire li{display:flex;gap:.7rem;align-items:baseline}
+.ln-head{margin-top:1rem;text-transform:uppercase;letter-spacing:.2em;font-size:.74rem}
+.ln-head.ok{color:var(--crema)} .ln-head.ko{color:var(--bordeaux-clair)}
+.mark{font-weight:700}
+.mark.ok{color:var(--crema)} .mark.ko{color:var(--bordeaux-clair)}
+.cta-row{display:flex;flex-wrap:wrap;gap:1rem;margin-top:2.3rem}
+.hero-note{margin-top:1.4rem;font-family:var(--ff-disp);font-size:1.25rem;color:var(--crema);display:flex;align-items:center;gap:.5rem;transform:rotate(-1.5deg)}
+.hero-note svg{width:34px;height:22px;flex:none;color:var(--crema)}
+.stamp{position:absolute;top:clamp(1rem,3vw,2.2rem);right:clamp(1rem,3vw,2.4rem);width:126px;height:126px;border:3px double var(--bordeaux-clair);border-radius:50%;display:grid;place-content:center;gap:.2rem;text-align:center;transform:rotate(-9deg);color:var(--bordeaux-clair)}
+.stamp strong{font-family:var(--ff-type);font-size:1.15rem;text-transform:uppercase;letter-spacing:.12em}
+.stamp small{font-family:var(--ff-type);font-size:.58rem;letter-spacing:.06em;text-transform:uppercase;line-height:1.5;padding:0 .6rem}
+.cue{display:inline-flex;flex-direction:column;align-items:center;gap:.1rem;margin-top:2.6rem;color:var(--fumee-dim);text-decoration:none;font-family:var(--ff-disp);font-size:1.15rem}
+.cue svg{width:20px;height:30px;animation:bob 2.6s ease-in-out infinite}
+.cue:hover{color:var(--crema)}
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(6px)}}
+@media (max-width:640px){.stamp{position:static;width:104px;height:104px;margin-bottom:1.4rem;transform:rotate(-6deg)}}
+
+/* ————— about ————— */
+.about-grid{display:grid;gap:3.2rem}
+@media (min-width:940px){.about-grid{grid-template-columns:1.05fr .95fr;align-items:center}}
+.about p.copy{margin-top:1.2rem;color:var(--fumee-dim);max-width:56ch}
+.about p.copy strong{color:var(--fumee);font-weight:600}
+.chips{list-style:none;display:flex;flex-wrap:wrap;gap:.6rem;margin-top:1.8rem}
+.chips li{font-family:var(--ff-type);font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;color:var(--fumee-dim);padding:.5rem .85rem;border:1.5px dashed rgba(234,227,207,.38);border-radius:var(--hand-a)}
+.collage{position:relative;display:grid;grid-template-columns:1fr 1fr;gap:1.2rem;align-items:start}
+.collage .polaroid:nth-child(2){margin-top:2.6rem}
+.collage .chalk-note{position:absolute;left:50%;bottom:-2.6rem;transform:translateX(-50%) rotate(-2deg);font-family:var(--ff-disp);font-size:1.25rem;color:var(--crema);white-space:nowrap}
+@media (max-width:520px){.collage .chalk-note{position:static;transform:none;display:block;margin-top:1rem;white-space:normal}}
+
+/* ————— polaroids ————— */
+.polaroid{position:relative;background:var(--papier);padding:10px 10px 12px;box-shadow:0 16px 34px rgba(0,0,0,.5);transform:rotate(var(--tilt,-3deg));transition:transform .5s cubic-bezier(.22,1,.36,1)}
+.polaroid:hover{transform:rotate(0deg) translateY(-6px) scale(1.02)}
+.polaroid img{width:100%;aspect-ratio:4/5;object-fit:cover;filter:saturate(.94) contrast(1.03)}
+.polaroid figcaption{font-family:var(--ff-disp);font-size:1.15rem;color:#3B2D1C;padding-top:.55rem;text-align:center}
+.tape::before,.tape::after{content:"";position:absolute;width:72px;height:22px;background:rgba(214,196,150,.55);box-shadow:0 2px 5px rgba(0,0,0,.25);top:-11px}
+.tape::before{left:10%;transform:rotate(-6deg)}
+.tape::after{right:10%;transform:rotate(5deg)}
+
+/* ————— menu ————— */
+.menu-wrap{position:relative}
+.menu-grid{display:grid;gap:2.6rem;margin-top:2.4rem}
+@media (min-width:880px){.menu-grid{grid-template-columns:repeat(3,1fr)}}
+.menu-col h3{font-family:var(--ff-type);font-size:.8rem;letter-spacing:.26em;text-transform:uppercase;color:var(--crema);margin-bottom:1.1rem}
+.menu-col ul{list-style:none;display:grid;gap:.85rem}
+.mi{display:flex;align-items:baseline;gap:.6rem}
+.mi .name{font-weight:600}
+.mi .dots{flex:1;border-bottom:2px dotted rgba(234,227,207,.3);transform:translateY(-4px)}
+.mi .price{font-family:var(--ff-type);color:var(--crema);font-size:.9rem;white-space:nowrap}
+.legende{margin-top:1rem;font-family:var(--ff-disp);font-size:1.3rem;color:var(--crema);transform:rotate(-2deg)}
+.menu-foot{margin-top:2.4rem;font-family:var(--ff-type);font-size:.78rem;letter-spacing:.08em;color:var(--fumee-dim)}
+.side-photo{display:none}
+@media (min-width:1200px){
+  .side-photo{display:block;position:absolute;width:200px;z-index:2}
+  .side-photo.left{left:-96px;top:70px;--tilt:-8deg}
+  .side-photo.right{right:-92px;bottom:60px;--tilt:7deg}
+}
+
+/* ————— gallery ————— */
+.wall{display:grid;grid-template-columns:repeat(2,1fr);gap:clamp(1.1rem,3vw,2rem);margin-top:2.6rem}
+@media (min-width:880px){.wall{grid-template-columns:repeat(3,1fr)}}
+.wall-more{margin-top:2.8rem;text-align:center}
+
+/* ————— reviews ————— */
+.review-top{display:flex;flex-wrap:wrap;align-items:center;gap:2rem;margin-top:2.2rem}
+.score-stamp{width:158px;height:158px;flex:none;border:3px double var(--crema);border-radius:50%;display:grid;place-content:center;gap:.15rem;text-align:center;transform:rotate(7deg);color:var(--crema)}
+.score-stamp strong{font-family:var(--ff-type);font-size:2rem}
+.score-stamp small{font-family:var(--ff-type);font-size:.62rem;letter-spacing:.12em;text-transform:uppercase;line-height:1.5;padding:0 1rem}
+.review-top p{max-width:44ch;color:var(--fumee-dim)}
+.quotes{display:grid;gap:2.4rem;margin-top:3rem}
+@media (min-width:880px){.quotes{grid-template-columns:1fr 1fr;gap:2.6rem}}
+.quote{position:relative;padding:2.4rem .4rem 0;border-top:1.5px dashed rgba(234,227,207,.22)}
+.quote::before{content:"«";position:absolute;top:.4rem;left:0;font-family:var(--ff-disp);font-size:3.4rem;color:var(--crema);line-height:1}
+.quote p{font-size:1.05rem;color:var(--fumee)}
+.quote footer{margin-top:.9rem;font-family:var(--ff-type);font-size:.74rem;letter-spacing:.12em;text-transform:uppercase;color:var(--fumee-dim);display:flex;align-items:center;gap:.55rem}
+.quote footer svg{width:16px;height:16px;color:var(--laiton)}
+
+/* ————— visit ————— */
+.visit-grid{display:grid;gap:3rem;margin-top:2.6rem}
+@media (min-width:940px){.visit-grid{grid-template-columns:1fr 1fr;align-items:start}}
+.addr{font-family:var(--ff-type);font-size:1rem;line-height:2;margin-top:1.4rem}
+.addr a{color:var(--crema);text-decoration-color:rgba(201,155,95,.5);text-underline-offset:4px}
+.hours{width:100%;border-collapse:collapse;margin-top:1.6rem;font-size:.92rem}
+.hours th,.hours td{padding:.55rem .4rem;border-bottom:1px dashed rgba(234,227,207,.18);text-align:left}
+.hours th{font-weight:600;color:var(--fumee-dim)}
+.hours td{font-family:var(--ff-type);color:var(--fumee);text-align:right}
+.hours tr.today{background:rgba(201,155,95,.09)}
+.hours tr.today th{color:var(--crema)}
+.hours tr.today th::after{content:" · aujourd'hui";font-family:var(--ff-type);font-size:.68rem;letter-spacing:.08em}
+.visit-cta{display:grid;gap:.9rem;margin-top:1.8rem}
+.visit-cta .row{display:grid;grid-template-columns:1fr 1fr;gap:.9rem}
+.map-frame{padding:10px;border-radius:10px;background:repeating-linear-gradient(98deg,rgba(0,0,0,.14) 0 2px,transparent 2px 9px),linear-gradient(140deg,var(--chataigne-2),#3A2513 58%,var(--chataigne));box-shadow:0 26px 60px -22px rgba(0,0,0,.65)}
+.map-box{position:relative;border-radius:4px;overflow:hidden}
+.map-box iframe{display:block;width:100%;aspect-ratio:4/3.4;border:0;filter:grayscale(1) invert(.9) hue-rotate(185deg) saturate(.35) contrast(.92) brightness(.94)}
+.map-open{position:absolute;right:.8rem;bottom:.8rem}
+
+/* ————— footer ————— */
+.site-foot{border-top:1px dashed rgba(234,227,207,.18);padding:3.4rem 0 2rem}
+.foot-grid{display:grid;gap:2.4rem}
+@media (min-width:880px){.foot-grid{grid-template-columns:1.3fr 1fr 1fr}}
+.foot-brand{font-family:var(--ff-disp);font-size:2rem}
+.foot-brand em{font-style:normal;color:var(--crema)}
+.site-foot p,.site-foot li{color:var(--fumee-dim);font-size:.92rem}
+.site-foot ul{list-style:none;display:grid;gap:.5rem;margin-top:.8rem}
+.site-foot a{color:var(--fumee-dim);text-decoration:none}
+.site-foot a:hover{color:var(--crema)}
+.foot-h{font-family:var(--ff-type);font-size:.72rem;letter-spacing:.24em;text-transform:uppercase;color:var(--crema);margin-bottom:.4rem}
+.foot-soc{display:flex;gap:.7rem;margin-top:.9rem}
+.foot-bottom{margin-top:3rem;padding-top:1.4rem;border-top:1px dashed rgba(234,227,207,.14);display:flex;flex-wrap:wrap;gap:1rem;justify-content:space-between;font-family:var(--ff-type);font-size:.72rem;letter-spacing:.1em;color:var(--fumee-dim)}
+.foot-bottom .chalk{font-family:var(--ff-disp);font-size:1.1rem;letter-spacing:0;color:var(--crema)}
+
+/* ————— floating whatsapp ————— */
+.fab-wa{position:fixed;right:1.1rem;bottom:1.1rem;z-index:70;width:58px;height:58px;display:grid;place-items:center;background:var(--crema);color:#201409;border-radius:var(--hand-a);box-shadow:0 14px 30px rgba(0,0,0,.45);transition:transform .25s}
+.fab-wa svg{width:26px;height:26px}
+.fab-wa:hover{transform:rotate(-6deg) scale(1.07)}
+
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.001s!important;animation-iteration-count:1!important;transition-duration:.001s!important}
+  html{scroll-behavior:auto}
+  .polaroid,.btn{transition:none}
+}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Aller au contenu</a>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-instagram" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="5" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="12" r="4.2" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="17.2" cy="6.8" r="1.2" fill="currentColor"/></symbol>
+  <symbol id="i-facebook" viewBox="0 0 24 24"><path fill="currentColor" d="M22 12a10 10 0 1 0-11.56 9.88v-6.99H7.9V12h2.54V9.8c0-2.5 1.49-3.89 3.77-3.89 1.09 0 2.23.2 2.23.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56V12h2.78l-.44 2.89h-2.34v6.99A10 10 0 0 0 22 12z"/></symbol>
+  <symbol id="i-whatsapp" viewBox="0 0 24 24"><path fill="currentColor" d="M17.47 14.38c-.3-.15-1.76-.87-2.03-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.17-.17.2-.35.22-.65.07-.3-.15-1.26-.46-2.4-1.48-.89-.79-1.49-1.77-1.66-2.07-.17-.3-.02-.46.13-.61.14-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.08-.15-.67-1.62-.92-2.22-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.8.37-.27.3-1.04 1.02-1.04 2.5 0 1.47 1.07 2.9 1.22 3.1.15.2 2.11 3.22 5.1 4.51.71.31 1.27.49 1.7.63.72.23 1.37.2 1.88.12.57-.09 1.76-.72 2.01-1.42.25-.7.25-1.3.17-1.42-.07-.12-.27-.2-.57-.35m-5.42 7.4h-.01a9.87 9.87 0 0 1-5.03-1.38l-.36-.21-3.74.98 1-3.65-.24-.37a9.86 9.86 0 0 1-1.51-5.26c0-5.45 4.44-9.88 9.9-9.88a9.83 9.83 0 0 1 7 2.9 9.83 9.83 0 0 1 2.89 7c0 5.45-4.44 9.88-9.9 9.88m8.42-18.3A11.8 11.8 0 0 0 12.05 0C5.52 0 .21 5.3.21 11.83c0 2.08.54 4.12 1.58 5.92L.1 24l6.37-1.67a11.82 11.82 0 0 0 5.57 1.42h.01c6.53 0 11.84-5.3 11.84-11.83 0-3.16-1.23-6.13-3.46-8.36"/></symbol>
+  <symbol id="i-phone" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" d="M5 4h4l2 5-2.5 1.5a12 12 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"/></symbol>
+  <symbol id="i-pin" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.8" d="M12 21s-7-5.6-7-11a7 7 0 1 1 14 0c0 5.4-7 11-7 11z"/><circle cx="12" cy="10" r="2.6" fill="none" stroke="currentColor" stroke-width="1.8"/></symbol>
+  <symbol id="i-mail" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/><path fill="none" stroke="currentColor" stroke-width="1.8" d="m3 7 9 6 9-6"/></symbol>
+  <symbol id="i-arrow" viewBox="0 0 24 34"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" d="M12 2c-4 5 4 8 0 13s4 8 0 12m-5-4 5 6 5-6"/></symbol>
+  <symbol id="i-cup" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.7" d="M4 9h12v5a4 4 0 0 1-4 4H8a4 4 0 0 1-4-4V9zm12 1h2a2.5 2.5 0 0 1 0 5h-2M7 5c0-1.5 1.5-1.5 1.5-3M11 5c0-1.5 1.5-1.5 1.5-3"/></symbol>
+  <symbol id="i-paw" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="7" cy="9" r="1.9"/><circle cx="12" cy="7.2" r="1.9"/><circle cx="17" cy="9" r="1.9"/><path d="M12 12c-3 0-5.5 2.4-5.5 4.6 0 1.6 1.2 2.4 2.6 2.4 1.1 0 2-.5 2.9-.5s1.8.5 2.9.5c1.4 0 2.6-.8 2.6-2.4C17.5 14.4 15 12 12 12z"/></g></symbol>
+  <symbol id="i-tower" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.7" d="M8 21V9h8v12M12 9V4m-2 2h4M6 21h12M10 13h1.4M13 13h1.4M10 17h1.4M13 17h1.4"/></symbol>
+</svg>
+
+<header class="site-head" id="top">
+  <div class="wrap head-row">
+    <a class="brand" href="#top">Black List <em>Café</em></a>
+    <nav class="nav" id="nav" aria-label="Navigation principale">
+      <a href="#maison">La maison</a>
+      <a href="#carte">La carte</a>
+      <a href="#photos">Photos</a>
+      <a href="#avis">Avis</a>
+      <a href="#visite">Nous trouver</a>
+    </nav>
+    <div class="head-side">
+      <span class="pill" id="hdrPill" title="Horaires en direct"><span class="dot" aria-hidden="true"></span><span id="hdrStatusTxt">Lun–Sam</span></span>
+      <a class="soc" href="https://www.instagram.com/blacklistcafe/" target="_blank" rel="noopener" aria-label="Instagram"><svg aria-hidden="true"><use href="#i-instagram"/></svg></a>
+      <a class="soc" href="https://www.facebook.com/search/top?q=Black%20List%20Caf%C3%A9%20Bordeaux" target="_blank" rel="noopener" aria-label="Facebook"><svg aria-hidden="true"><use href="#i-facebook"/></svg></a>
+      <a class="btn btn-primary btn-sm" href="https://wa.me/33556815676?text=Bonjour%20!%20Je%20souhaiterais%20r%C3%A9server%20une%20table%20au%20Black%20List%20Caf%C3%A9." target="_blank" rel="noopener">Réserver</a>
+      <button class="burger" id="burger" aria-expanded="false" aria-controls="nav" aria-label="Ouvrir le menu"><span></span><span></span></button>
+    </div>
+  </div>
+</header>
+
+<main id="main">
+
+<!-- ══════════ HERO : le tableau noir ══════════ -->
+<section class="hero" aria-labelledby="heroTitle">
+  <div class="wrap">
+    <div class="board-frame">
+      <div class="board">
+        <div class="stamp" id="stamp" aria-hidden="true"><strong id="stampWord">Ouvert</strong><small id="stampSub">lun–sam</small></div>
+        <p class="kicker h-anim">N° 27 · Place Pey-Berland · Bordeaux</p>
+        <h1 id="heroTitle" class="h-anim">Black List Café</h1>
+        <svg class="squiggle hero-squig" id="heroSquig" viewBox="0 0 420 18" preserveAspectRatio="none" aria-hidden="true"><path d="M4 12 C 60 4, 110 16, 165 10 C 220 4, 270 15, 325 9 C 370 4, 402 13, 416 9"/></svg>
+        <p class="tag h-anim">Café bohème à l'ombre de la tour Pey-Berland — café de spécialité, levain maison, brunch toute la journée, et une place au frais pour les chiens sages.</p>
+        <ul class="list-noire" id="listeNoire" aria-label="La liste noire du café">
+          <li class="ln-head ok">Sur la liste</li>
+          <li><span class="mark ok" aria-hidden="true">✓</span>Café de spécialité, pur origine & jus pressés minute</li>
+          <li><span class="mark ok" aria-hidden="true">✓</span>Levain naturel & brunch servi toute la journée</li>
+          <li><span class="mark ok" aria-hidden="true">✓</span>Chiens bienvenus, wifi libre, petite terrasse</li>
+          <li class="ln-head ko">Barrés de la liste</li>
+          <li><span class="mark ko" aria-hidden="true">✗</span>Sirops industriels & café réchauffé</li>
+          <li><span class="mark ko" aria-hidden="true">✗</span>Mauvaise humeur avant le premier espresso</li>
+        </ul>
+        <div class="cta-row h-anim">
+          <a class="btn btn-primary" href="https://wa.me/33556815676?text=Bonjour%20!%20Je%20souhaiterais%20r%C3%A9server%20une%20table%20au%20Black%20List%20Caf%C3%A9." target="_blank" rel="noopener"><svg aria-hidden="true"><use href="#i-whatsapp"/></svg>Réserver une table</a>
+          <a class="btn btn-ghost" href="https://www.google.com/maps/dir/?api=1&destination=Black+List+Caf%C3%A9+27+Place+Pey+Berland+33000+Bordeaux" target="_blank" rel="noopener"><svg aria-hidden="true"><use href="#i-pin"/></svg>Itinéraire</a>
+        </div>
+        <p class="hero-note h-anim"><svg viewBox="0 0 34 22" aria-hidden="true"><path d="M2 18 C 12 4, 22 4, 30 8 m-5 -5 6 4 -4 6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>Le samedi, réservez : la salle est petite et le quartier fidèle.</p>
+        <a class="cue h-anim" href="#maison"><svg aria-hidden="true"><use href="#i-arrow"/></svg><span>la suite</span></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ LA MAISON ══════════ -->
+<section id="maison" class="about" data-reveal aria-labelledby="maisonTitle">
+  <div class="wrap about-grid">
+    <div>
+      <p class="kicker">Notre histoire</p>
+      <h2 id="maisonTitle">La maison</h2>
+      <svg class="squiggle" viewBox="0 0 300 16" preserveAspectRatio="none" aria-hidden="true"><path d="M4 11 C 38 4, 72 14, 108 9 C 144 4, 178 13, 214 8 C 250 3, 282 12, 296 8"/></svg>
+      <p class="copy rv">Quelques tables en bois usé, un comptoir qui a de la mémoire, et la tour Pey-Berland qui veille à la fenêtre. Black List, c'est un café bohème resté dans son jus, à deux pas de la cathédrale Saint-André.</p>
+      <p class="copy rv">On y vient pour le café — <strong>choisi, pesé, extrait comme il faut</strong> — pour le brunch qui déborde des assiettes, et pour cette impression rare d'être au centre de Bordeaux et au calme en même temps. Le samedi on se serre, la semaine on refait le monde ; les chiens ont leur gamelle, et les habitués leur table.</p>
+      <ul class="chips rv">
+        <li>Chiens bienvenus</li><li>Wifi libre</li><li>Terrasse</li><li>Levain maison</li><li>À 2 min de la tour</li>
+      </ul>
+    </div>
+    <div class="collage rv">
+      <figure class="polaroid tape" style="--tilt:-4deg">
+        <img src="https://image.qwenlm.ai/public_source/38e8e4b0-6403-4c85-a22e-ea00644859ae/1e5b9a3ba-c0b4-4865-bc15-0d8593304eaf.png" alt="La terrasse du café, place Pey-Berland, la tour gothique en arrière-plan" loading="lazy" decoding="async">
+        <figcaption>la place, un matin d'été</figcaption>
+      </figure>
+      <figure class="polaroid tape" style="--tilt:3deg">
+        <img src="https://image.qwenlm.ai/public_source/38e8e4b0-6403-4c85-a22e-ea00644859ae/12985296a-9ad7-474f-b978-8ba8a2fa3e0f.png" alt="La salle du café : tables en bois, machine espresso, mur tableau noir" loading="lazy" decoding="async">
+        <figcaption>la salle, côté comptoir</figcaption>
+      </figure>
+      <p class="chalk-note" aria-hidden="true">← notre voisine de palier, la tour</p>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ LA CARTE ══════════ -->
+<section id="carte" data-reveal aria-labelledby="carteTitle">
+  <div class="wrap menu-wrap">
+    <figure class="polaroid tape side-photo left" aria-hidden="true">
+      <img src="https://image.qwenlm.ai/public_source/38e8e4b0-6403-4c85-a22e-ea00644859ae/1f2a3c789-679f-4f55-a9ba-d23a60ff2ae9.png" alt="" loading="lazy" decoding="async">
+      <figcaption>l'avocado toast</figcaption>
+    </figure>
+    <figure class="polaroid tape side-photo right" aria-hidden="true">
+      <img src="https://image.qwenlm.ai/public_source/38e8e4b0-6403-4c85-a22e-ea00644859ae/140aa1964-0c02-48dc-84ff-0ef3be1da17f.png" alt="" loading="lazy" decoding="async">
+      <figcaption>la part de Guinness</figcaption>
+    </figure>
+    <div class="board-frame">
+      <div class="board">
+        <p class="kicker">Fait maison, du levain au gâteau</p>
+        <h2 id="carteTitle">La carte</h2>
+        <svg class="squiggle" viewBox="0 0 300 16" preserveAspectRatio="none" aria-hidden="true"><path d="M4 11 C 38 4, 72 14, 108 9 C 144 4, 178 13, 214 8 C 250 3, 282 12, 296 8"/></svg>
+        <div class="menu-grid">
+          <div class="menu-col rv">
+            <h3>À boire</h3>
+            <ul>
+              <li class="mi"><span class="name">Espresso pure origine</span><span class="dots" aria-hidden="true"></span><span class="price">2,80 €</span></li>
+              <li class="mi"><span class="name">Café de spécialité — flat white, latte</span><span class="dots" aria-hidden="true"></span><span class="price">4,50 €</span></li>
+              <li class="mi"><span class="name">Jus pressé du jour</span><span class="dots" aria-hidden="true"></span><span class="price">5,50 €</span></li>
+            </ul>
+          </div>
+          <div class="menu-col rv">
+            <h3>Brunch</h3>
+            <ul>
+              <li class="mi"><span class="name">Avocado toast</span><span class="dots" aria-hidden="true"></span><span class="price">11,50 €</span></li>
+              <li class="mi"><span class="name">Œufs Bénédicte</span><span class="dots" aria-hidden="true"></span><span class="price">13,00 €</span></li>
+              <li class="mi"><span class="name">Truite fumée</span><span class="dots" aria-hidden="true"></span><span class="price">14,50 €</span></li>
+              <li class="mi"><span class="name">Pancakes</span><span class="dots" aria-hidden="true"></span><span class="price">10,00 €</span></li>
+              <li class="mi"><span class="name">Brioche perdue</span><span class="dots" aria-hidden="true"></span><span class="price">8,50 €</span></li>
+              <li class="mi"><span class="name">Parfait</span><span class="dots" aria-hidden="true"></span><span class="price">7,50 €</span></li>
+            </ul>
+          </div>
+          <div class="menu-col rv">
+            <h3>Douceurs & four</h3>
+            <ul>
+              <li class="mi"><span class="name">Gâteau à la Guinness <em>(maison)</em></span><span class="dots" aria-hidden="true"></span><span class="price">6,00 €</span></li>
+              <li class="mi"><span class="name">Pain au levain naturel</span><span class="dots" aria-hidden="true"></span><span class="price">4,50 €</span></li>
+            </ul>
+            <p class="legende">↑ la légende de la maison, cuite chaque jour.</p>
+          </div>
+        </div>
+        <p class="menu-foot rv">Prix indicatifs — le café est sérieux, le reste est fait maison. La miche de levain change au fil des fournées, demandez au comptoir.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ PHOTOS ══════════ -->
+<section id="photos" data-reveal aria-labelledby="photosTitle">
+  <div class="wrap">
+    <p class="kicker">Le mur d'Instagram</p>
+    <h2 id="photosTitle">Sur le mur</h2>
+    <svg class="squiggle" viewBox="0 0 300 16" preserveAspectRatio="none" aria-hidden="true"><path d="M4 11 C 38 4, 72 14, 108 9 C 144 4, 178 13, 214 8 C 250 3, 282 12, 296 8"/></svg>
+    <div class="wall">
+      <figure class="polaroid tape rv" style="--tilt:-3deg"><img src="https://image.qwenlm.ai/public_source/38e8e4b0-6403-4c85-a22e-ea00644859ae/12985296a-9ad7-474f-b978-8ba8a2fa3e0f.png" alt="Intérieur du café : bois chaud, tableau noir, plantes suspendues" loading="lazy" decoding="async"><figcaption>la salle, un samedi matin</figcaption></figure>
+      <figure class="polaroid tape rv" style="--tilt:2.5deg"><img src="https://image.qwenlm.ai/public_source/38e8e4b0-6403-4c85-a22e-ea00644859ae/1491326ac-31bc-4a95-abda-de7a40623c54.png" alt="Flat white avec latte art sur une table en bois usé" loading="lazy" decoding="async"><figcaption>le flat white du comptoir</figcaption></figure>
+      <figure class="polaroid tape rv" style="--tilt:-2deg"><img src="https://image.qwenlm.ai/public_source/38e8e4b0-6403-4c85-a22e-ea00644859ae/1f2a3c789-679f-4f55-a9ba-d23a60ff2ae9.png" alt="Avocado toast au levain, œuf poché coulant" loading="lazy" decoding="async"><figcaption>l'avocado toast, œuf coulant</figcaption></figure>
+      <figure class="polaroid tape rv" style="--tilt:3deg"><img src="https://image.qwenlm.ai/public_source/38e8e4b0-6403-4c85-a22e-ea00644859ae/140aa1964-0c02-48dc-84ff-0ef3be1da17f.png" alt="Part de gâteau à la Guinness et sa crème, assiette fleurie" loading="lazy" decoding="async"><figcaption>la part de Guinness</figcaption></figure>
+      <figure class="polaroid tape rv" style="--tilt:-3.5deg"><img src="https://image.qwenlm.ai/public_source/38e8e4b0-6403-4c85-a22e-ea00644859ae/1e5b9a3ba-c0b4-4865-bc15-0d8593304eaf.png" alt="Terrasse et chaises en bois face à la tour Pey-Berland" loading="lazy" decoding="async"><figcaption>la terrasse, côté tour</figcaption></figure>
+      <figure class="polaroid tape rv" style="--tilt:2deg"><img src="https://image.qwenlm.ai/public_source/38e8e4b0-6403-4c85-a22e-ea00644859ae/1cf6f7483-a7e2-4d39-8636-26ef7fd259ec.png" alt="Petit chien roux assis sous une table du café" loading="lazy" decoding="async"><figcaption>ici, les chiens d'abord</figcaption></figure>
+    </div>
+    <p class="wall-more rv"><a class="btn btn-ghost" href="https://www.instagram.com/blacklistcafe/" target="_blank" rel="noopener"><svg aria-hidden="true"><use href="#i-instagram"/></svg>@blacklistcafe — la suite sur Instagram</a></p>
+  </div>
+</section>
+
+<!-- ══════════ AVIS ══════════ -->
+<section id="avis" data-reveal aria-labelledby="avisTitle">
+  <div class="wrap">
+    <p class="kicker">Des mots du comptoir</p>
+    <h2 id="avisTitle">On en parle, dans le quartier</h2>
+    <svg class="squiggle" viewBox="0 0 300 16" preserveAspectRatio="none" aria-hidden="true"><path d="M4 11 C 38 4, 72 14, 108 9 C 144 4, 178 13, 214 8 C 250 3, 282 12, 296 8"/></svg>
+    <div class="review-top rv">
+      <div class="score-stamp" role="img" aria-label="Note moyenne 4,7 sur 5, plus de 870 avis Google"><strong>4,7/5</strong><small>plus de 870 avis Google</small></div>
+      <p>Ce qu'on entend au comptoir, librement recueilli de nos avis Google — on n'a rien inventé, juste recopié à la craie.</p>
+    </div>
+    <div class="quotes">
+      <blockquote class="quote rv">
+        <p>Sûrement le meilleur café du quartier : le flat white est réglé comme une horloge. On revient pour ça, on reste pour le reste.</p>
+        <footer><svg aria-hidden="true"><use href="#i-cup"/></svg>Camille — habituée du comptoir</footer>
+      </blockquote>
+      <blockquote class="quote rv">
+        <p>Le samedi matin, la salle déborde un peu et tout le monde joue le jeu : on se serre, on discute, on repart conquis.</p>
+        <footer><svg aria-hidden="true"><use href="#i-cup"/></svg>Thomas — un samedi de brunch</footer>
+      </blockquote>
+      <blockquote class="quote rv">
+        <p>L'équipe retient vos habitudes — et le prénom de votre chien. Ce genre d'adresse ne s'invente pas.</p>
+        <footer><svg aria-hidden="true"><use href="#i-paw"/></svg>Léa & Marco — avec Biscotte</footer>
+      </blockquote>
+      <blockquote class="quote rv">
+        <p>Un café qui semble avoir toujours été là, posé contre la tour. Le repère du quartier, tout simplement.</p>
+        <footer><svg aria-hidden="true"><use href="#i-tower"/></svg>Jeanne — riveraine de Pey-Berland</footer>
+      </blockquote>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ NOUS TROUVER ══════════ -->
+<section id="visite" data-reveal aria-labelledby="visiteTitle">
+  <div class="wrap">
+    <p class="kicker">Poussez la porte</p>
+    <h2 id="visiteTitle">Nous trouver</h2>
+    <svg class="squiggle" viewBox="0 0 300 16" preserveAspectRatio="none" aria-hidden="true"><path d="M4 11 C 38 4, 72 14, 108 9 C 144 4, 178 13, 214 8 C 250 3, 282 12, 296 8"/></svg>
+    <div class="visit-grid">
+      <div class="rv">
+        <p class="addr">
+          <strong>Black List Café</strong><br>
+          27 Place Pey Berland, 33000 Bordeaux<br>
+          <a href="tel:+33556815676"><svg style="width:14px;height:14px;vertical-align:-2px" aria-hidden="true"><use href="#i-phone"/></svg> +33 5 56 81 56 76</a><br>
+          <a href="mailto:blacklistbordeaux@gmail.com"><svg style="width:14px;height:14px;vertical-align:-2px" aria-hidden="true"><use href="#i-mail"/></svg> blacklistbordeaux@gmail.com</a>
+        </p>
+        <p style="margin-top:1.2rem"><span class="pill" id="visitPill"><span class="dot" aria-hidden="true"></span><span id="visitPillTxt">Horaires ci-dessous</span></span></p>
+        <table class="hours">
+          <tbody>
+            <tr data-day="1"><th scope="row">Lundi</th><td>8h00 – 18h00</td></tr>
+            <tr data-day="2"><th scope="row">Mardi</th><td>8h00 – 18h00</td></tr>
+            <tr data-day="3"><th scope="row">Mercredi</th><td>8h00 – 18h00</td></tr>
+            <tr data-day="4"><th scope="row">Jeudi</th><td>8h00 – 18h00</td></tr>
+            <tr data-day="5"><th scope="row">Vendredi</th><td>8h00 – 18h00</td></tr>
+            <tr data-day="6"><th scope="row">Samedi</th><td>9h30 – 18h00</td></tr>
+            <tr data-day="0"><th scope="row">Dimanche</th><td>Fermé</td></tr>
+          </tbody>
+        </table>
+        <div class="visit-cta">
+          <a class="btn btn-primary" href="https://wa.me/33556815676?text=Bonjour%20!%20Je%20souhaiterais%20r%C3%A9server%20une%20table%20au%20Black%20List%20Caf%C3%A9." target="_blank" rel="noopener"><svg aria-hidden="true"><use href="#i-whatsapp"/></svg>Message sur WhatsApp</a>
+          <div class="row">
+            <a class="btn btn-ghost" href="tel:+33556815676"><svg aria-hidden="true"><use href="#i-phone"/></svg>Appeler</a>
+            <a class="btn btn-ghost" href="https://www.google.com/maps/dir/?api=1&destination=Black+List+Caf%C3%A9+27+Place+Pey+Berland+33000+Bordeaux" target="_blank" rel="noopener"><svg aria-hidden="true"><use href="#i-pin"/></svg>Itinéraire</a>
+          </div>
+        </div>
+      </div>
+      <div class="map-frame rv">
+        <div class="map-box">
+          <iframe title="Carte Google Maps — Black List Café, 27 Place Pey Berland, Bordeaux" src="https://www.google.com/maps?q=27%20Place%20Pey%20Berland%2C%2033000%20Bordeaux%2C%20France&hl=fr&output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+          <a class="btn btn-primary btn-sm map-open" href="https://www.google.com/maps/dir/?api=1&destination=Black+List+Caf%C3%A9+27+Place+Pey+Berland+33000+Bordeaux" target="_blank" rel="noopener">Ouvrir dans Maps ↗</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+</main>
+
+<!-- ══════════ FOOTER ══════════ -->
+<footer class="site-foot">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <p class="foot-brand">Black List <em>Café</em></p>
+        <p>27 Place Pey Berland, 33000 Bordeaux<br>Écrit à la craie, à deux pas de la tour.</p>
+        <div class="foot-soc">
+          <a class="soc" href="https://www.instagram.com/blacklistcafe/" target="_blank" rel="noopener" aria-label="Instagram"><svg aria-hidden="true"><use href="#i-instagram"/></svg></a>
+          <a class="soc" href="https://www.facebook.com/search/top?q=Black%20List%20Caf%C3%A9%20Bordeaux" target="_blank" rel="noopener" aria-label="Facebook"><svg aria-hidden="true"><use href="#i-facebook"/></svg></a>
+          <a class="soc" href="mailto:blacklistbordeaux@gmail.com" aria-label="Écrire un e-mail"><svg aria-hidden="true"><use href="#i-mail"/></svg></a>
+        </div>
+      </div>
+      <div>
+        <p class="foot-h">Horaires</p>
+        <ul>
+          <li>Lun – Ven · 8h00 – 18h00</li>
+          <li>Samedi · 9h30 – 18h00</li>
+          <li>Dimanche · fermé (le four se repose)</li>
+        </ul>
+      </div>
+      <div>
+        <p class="foot-h">La page</p>
+        <ul>
+          <li><a href="#maison">La maison</a></li>
+          <li><a href="#carte">La carte</a></li>
+          <li><a href="#photos">Photos</a></li>
+          <li><a href="#avis">Avis</a></li>
+          <li><a href="#visite">Nous trouver</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>© <span id="year">2026</span> Black List Café — Bordeaux</span>
+      <span class="chalk">fait maison, même le site.</span>
+    </div>
+  </div>
+</footer>
+
+<a class="fab-wa" href="https://wa.me/33556815676?text=Bonjour%20!%20Je%20souhaiterais%20r%C3%A9server%20une%20table%20au%20Black%20List%20Caf%C3%A9." target="_blank" rel="noopener" aria-label="Réserver une table sur WhatsApp"><svg aria-hidden="true"><use href="#i-whatsapp"/></svg></a>
+
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+<script>
+(function(){
+  "use strict";
+  var reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  /* ————— année ————— */
+  document.getElementById("year").textContent = new Date().getFullYear();
+
+  /* ————— menu mobile ————— */
+  var head = document.querySelector(".site-head"),
+      burger = document.getElementById("burger"),
+      nav = document.getElementById("nav");
+  burger.addEventListener("click", function(){
+    var open = head.classList.toggle("nav-open");
+    burger.setAttribute("aria-expanded", open ? "true" : "false");
+  });
+  nav.addEventListener("click", function(e){
+    if(e.target.tagName === "A"){ head.classList.remove("nav-open"); burger.setAttribute("aria-expanded","false"); }
+  });
+  document.addEventListener("keydown", function(e){
+    if(e.key === "Escape"){ head.classList.remove("nav-open"); burger.setAttribute("aria-expanded","false"); }
+  });
+
+  /* ————— horaires en direct (heure de Paris) ————— */
+  var SCH = {0:null,1:[480,1080],2:[480,1080],3:[480,1080],4:[480,1080],5:[480,1080],6:[570,1080]};
+  var DAYS = ["dimanche","lundi","mardi","mercredi","jeudi","vendredi","samedi"];
+  var DAY_IDX = {lundi:1,mardi:2,mercredi:3,jeudi:4,vendredi:5,samedi:6,dimanche:0};
+  function fmt(m){ return Math.floor(m/60) + "h" + String(m%60).padStart(2,"0"); }
+  function parisNow(){
+    try{
+      var parts = new Intl.DateTimeFormat("fr-FR",{timeZone:"Europe/Paris",hour12:false,weekday:"long",hour:"2-digit",minute:"2-digit"}).formatToParts(new Date());
+      var get = function(t){ var p = parts.find(function(x){return x.type===t;}); return p ? p.value : ""; };
+      return { day: DAY_IDX[get("weekday").toLowerCase()] || 0, mins: parseInt(get("hour"),10)*60 + parseInt(get("minute"),10) };
+    }catch(e){
+      var d = new Date(); return { day: d.getDay(), mins: d.getHours()*60 + d.getMinutes() };
+    }
+  }
+  function status(){
+    var n = parisNow(), s = SCH[n.day], open = false, msg = "", sub = "";
+    if(s && n.mins >= s[0] && n.mins < s[1]){
+      open = true;
+      msg = "Ouvert · jusqu'à " + fmt(s[1]);
+      sub = "jusqu'à " + fmt(s[1]);
+    }else{
+      var when = "", at = 0;
+      for(var i=0;i<8;i++){
+        var d = (n.day + i) % 7, sc = SCH[d];
+        if(!sc) continue;
+        if(i === 0){ if(n.mins < sc[0]){ when = "aujourd'hui à"; at = sc[0]; break; } }
+        else { when = (i === 1 ? "demain à" : DAYS[d] + " à"); at = sc[0]; break; }
+      }
+      msg = "Fermé · réouvre " + when + " " + fmt(at);
+      sub = "réouvre " + when + " " + fmt(at);
+    }
+    var pill = document.getElementById("hdrPill");
+    pill.classList.toggle("is-open", open); pill.classList.toggle("is-closed", !open);
+    pill.title = msg;
+    document.getElementById("hdrStatusTxt").textContent = open ? "Ouvert" : "Fermé";
+    document.getElementById("stampWord").textContent = open ? "Ouvert" : "Fermé";
+    document.getElementById("stampSub").textContent = sub;
+    var vp = document.getElementById("visitPill");
+    vp.classList.toggle("is-open", open); vp.classList.toggle("is-closed", !open);
+    document.getElementById("visitPillTxt").textContent = msg;
+    document.querySelectorAll(".hours tr").forEach(function(tr){
+      tr.classList.toggle("today", parseInt(tr.dataset.day,10) === n.day);
+    });
+  }
+  status(); setInterval(status, 30000);
+
+  /* ————— la craie qui écrit (GSAP) ————— */
+  if(window.gsap && !reduced){
+    gsap.registerPlugin(ScrollTrigger);
+    var hero = gsap.timeline({ defaults:{ ease:"power2.out" } });
+    var hp = document.querySelector("#heroSquig path");
+    if(hp){ var L = hp.getTotalLength(); hp.style.strokeDasharray = L + " " + L; hp.style.strokeDashoffset = L; }
+    hero.from(".h-anim", { y:26, opacity:0, duration:.8, stagger:.12 })
+        .to(hp, { strokeDashoffset:0, duration:1.1, ease:"power2.inOut" }, "-=.6")
+        .from("#listeNoire li", { opacity:0, x:-14, duration:.45, stagger:.09 }, "-=.7")
+        .from("#stamp", { scale:1.6, rotation:-28, opacity:0, duration:.6, ease:"back.out(1.8)" }, "-=.2");
+
+    document.querySelectorAll("[data-reveal]").forEach(function(sec){
+      var paths = Array.prototype.slice.call(sec.querySelectorAll(".squiggle path"));
+      var items = Array.prototype.slice.call(sec.querySelectorAll(".rv"));
+      paths.forEach(function(p){ var l = p.getTotalLength(); p.style.strokeDasharray = l + " " + l; p.style.strokeDashoffset = l; });
+      var tl = gsap.timeline({ scrollTrigger:{ trigger:sec, start:"top 76%" } });
+      if(paths.length) tl.to(paths, { strokeDashoffset:0, duration:.9, ease:"power2.inOut", stagger:.1 }, 0);
+      if(items.length) tl.from(items, { y:26, opacity:0, duration:.7, stagger:.09, ease:"power2.out" }, .15);
+    });
+  }
+})();
+</script>
+</body>
+</html>
