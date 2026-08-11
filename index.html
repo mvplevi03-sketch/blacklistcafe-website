@@ -121,10 +121,10 @@ h2{font-size:clamp(2.5rem,6vw,3.9rem)}
 .btn-sm{padding:.55rem 1rem;font-size:.75rem}
 .pill{display:inline-flex;align-items:center;gap:.5rem;font-family:var(--ff-type);font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;padding:.45rem .85rem;border:1.5px dashed;border-radius:var(--hand-b)}
 .pill .dot{width:8px;height:8px;border-radius:50%;background:currentColor;flex:none}
-.pill.is-open{color:var(--crema);border-color:rgba(201,155,95,.6)}
+.pill.is-open{color:#8FAE6B;border-color:rgba(143,174,107,.6)}
 .pill.is-open .dot{animation:pulse 2.4s ease-in-out infinite}
 .pill.is-closed{color:var(--bordeaux-clair);border-color:rgba(184,80,94,.55)}
-@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(201,155,95,.45)}50%{box-shadow:0 0 0 6px rgba(201,155,95,0)}}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(143,174,107,.45)}50%{box-shadow:0 0 0 6px rgba(143,174,107,0)}}
 
 /* ————— header ————— */
 .site-head{position:sticky;top:0;z-index:60;background:rgba(23,19,12,.92);backdrop-filter:blur(7px);border-bottom:1px dashed rgba(234,227,207,.16)}
@@ -317,8 +317,8 @@ h2{font-size:clamp(2.5rem,6vw,3.9rem)}
     <div class="head-side">
       <span class="pill" id="hdrPill" title="Horaires en direct"><span class="dot" aria-hidden="true"></span><span id="hdrStatusTxt">Lun–Sam</span></span>
       <a class="soc" href="https://www.instagram.com/blacklistcafe/" target="_blank" rel="noopener" aria-label="Instagram"><svg aria-hidden="true"><use href="#i-instagram"/></svg></a>
-      <a class="soc" href="https://www.facebook.com/search/top?q=Black%20List%20Caf%C3%A9%20Bordeaux" target="_blank" rel="noopener" aria-label="Facebook"><svg aria-hidden="true"><use href="#i-facebook"/></svg></a>
-      <a class="btn btn-primary btn-sm" href="https://wa.me/33556815676?text=Bonjour%20!%20Je%20souhaiterais%20r%C3%A9server%20une%20table%20au%20Black%20List%20Caf%C3%A9." target="_blank" rel="noopener">Réserver</a>
+      <a class="soc" href="https://www.facebook.com/blacklistcafe" target="_blank" rel="noopener" aria-label="Facebook"><svg aria-hidden="true"><use href="#i-facebook"/></svg></a>
+      <a class="btn btn-primary btn-sm" href="tel:+33556815676">Appeler</a>
       <button class="burger" id="burger" aria-expanded="false" aria-controls="nav" aria-label="Ouvrir le menu"><span></span><span></span></button>
     </div>
   </div>
@@ -346,7 +346,7 @@ h2{font-size:clamp(2.5rem,6vw,3.9rem)}
           <li><span class="mark ko" aria-hidden="true">✗</span>Mauvaise humeur avant le premier espresso</li>
         </ul>
         <div class="cta-row h-anim">
-          <a class="btn btn-primary" href="https://wa.me/33556815676?text=Bonjour%20!%20Je%20souhaiterais%20r%C3%A9server%20une%20table%20au%20Black%20List%20Caf%C3%A9." target="_blank" rel="noopener"><svg aria-hidden="true"><use href="#i-whatsapp"/></svg>Réserver une table</a>
+          <a class="btn btn-primary" href="tel:+33556815676"><svg aria-hidden="true"><use href="#i-phone"/></svg>Appeler pour réserver</a>
           <a class="btn btn-ghost" href="https://www.google.com/maps/dir/?api=1&destination=Black+List+Caf%C3%A9+27+Place+Pey+Berland+33000+Bordeaux" target="_blank" rel="noopener"><svg aria-hidden="true"><use href="#i-pin"/></svg>Itinéraire</a>
         </div>
         <p class="hero-note h-anim"><svg viewBox="0 0 34 22" aria-hidden="true"><path d="M2 18 C 12 4, 22 4, 30 8 m-5 -5 6 4 -4 6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>Le samedi, réservez : la salle est petite et le quartier fidèle.</p>
@@ -510,9 +510,8 @@ h2{font-size:clamp(2.5rem,6vw,3.9rem)}
           </tbody>
         </table>
         <div class="visit-cta">
-          <a class="btn btn-primary" href="https://wa.me/33556815676?text=Bonjour%20!%20Je%20souhaiterais%20r%C3%A9server%20une%20table%20au%20Black%20List%20Caf%C3%A9." target="_blank" rel="noopener"><svg aria-hidden="true"><use href="#i-whatsapp"/></svg>Message sur WhatsApp</a>
           <div class="row">
-            <a class="btn btn-ghost" href="tel:+33556815676"><svg aria-hidden="true"><use href="#i-phone"/></svg>Appeler</a>
+            <a class="btn btn-primary" href="tel:+33556815676"><svg aria-hidden="true"><use href="#i-phone"/></svg>Appeler</a>
             <a class="btn btn-ghost" href="https://www.google.com/maps/dir/?api=1&destination=Black+List+Caf%C3%A9+27+Place+Pey+Berland+33000+Bordeaux" target="_blank" rel="noopener"><svg aria-hidden="true"><use href="#i-pin"/></svg>Itinéraire</a>
           </div>
         </div>
@@ -537,7 +536,7 @@ h2{font-size:clamp(2.5rem,6vw,3.9rem)}
         <p>27 Place Pey Berland, 33000 Bordeaux<br>Écrit à la craie, à deux pas de la tour.</p>
         <div class="foot-soc">
           <a class="soc" href="https://www.instagram.com/blacklistcafe/" target="_blank" rel="noopener" aria-label="Instagram"><svg aria-hidden="true"><use href="#i-instagram"/></svg></a>
-          <a class="soc" href="https://www.facebook.com/search/top?q=Black%20List%20Caf%C3%A9%20Bordeaux" target="_blank" rel="noopener" aria-label="Facebook"><svg aria-hidden="true"><use href="#i-facebook"/></svg></a>
+          <a class="soc" href="https://www.facebook.com/blacklistcafe" target="_blank" rel="noopener" aria-label="Facebook"><svg aria-hidden="true"><use href="#i-facebook"/></svg></a>
           <a class="soc" href="mailto:blacklistbordeaux@gmail.com" aria-label="Écrire un e-mail"><svg aria-hidden="true"><use href="#i-mail"/></svg></a>
         </div>
       </div>
@@ -567,7 +566,6 @@ h2{font-size:clamp(2.5rem,6vw,3.9rem)}
   </div>
 </footer>
 
-<a class="fab-wa" href="https://wa.me/33556815676?text=Bonjour%20!%20Je%20souhaiterais%20r%C3%A9server%20une%20table%20au%20Black%20List%20Caf%C3%A9." target="_blank" rel="noopener" aria-label="Réserver une table sur WhatsApp"><svg aria-hidden="true"><use href="#i-whatsapp"/></svg></a>
 
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
